@@ -4,9 +4,9 @@
 
 int _printf(const char *format, ...)
 {
-	register int n_bytes = 0;
-	register char *str;
-	register char *ch = malloc(1);
+	int n_bytes = 0;
+	char *str;
+	char *ch = malloc(1);
 	int n;
 	va_list args;
 	
