@@ -7,6 +7,7 @@ int _printf(const char *format, ...)
 	register int n_bytes = 0;
 	register char *str;
 	register char *ch = malloc(1);
+	int n;
 	va_list args;
 	
 	va_start(args, format);
@@ -33,6 +34,23 @@ print:
 			while (*str)
 				n_bytes += write(1, str++, 1);
 			break;
+		
+		case 'd':
+			n = va_arg(args, int);
+			if (n < 0)
+			{
+				n = -n;
+				*ch = '-';
+			 	n_bytes += write(1, ch, 1);
+			}
+
+			while (n > 0)
+			{
+				*ch = (n / 10 + '0');
+				n_bytes += write(1, ch, 1);
+				n /= 10;
+			}
+			break;
 
 		default:
 			break;
@@ -40,7 +58,7 @@ print:
 		break;
 	
 	default:
-		write(1, format, 1);
+		n_bytes += write(1, format, 1);
 		break;
 	}
 

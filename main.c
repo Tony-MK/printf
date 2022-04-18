@@ -23,7 +23,7 @@ int main(void)
 	_len = _printf("Percent:[%%]\n");
 	len = printf("Percent:[%%]\n");
 
-	
-	printf("Len:[%d %d]\n", _len, len);
+	_printf("Len:[%d]\n", _len);	
+	printf("Len:[%d]\n",len);
     	return (0);
 }
