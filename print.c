@@ -1,68 +1,45 @@
-#include <unistd.h>
-#include <stdarg.h>
-#include <stdlib.h>
+#include "main.h"
 
+/**
+ * _printf - main func
+ * @format: specifies the format
+ * printing to stdout using printf
+ * Return: printed values
+ */
 int _printf(const char *format, ...)
 {
-	int n_bytes = 0;
-	char *str;
-	char *ch = malloc(1);
-	int n;
-	va_list args;
-	
-	va_start(args, format);
-print:
-	switch (*format)
+	int (*pfunc)(va_list, flags_t *);
+	const char *p;
+	va_list arguments;
+	flags_t flags = {0, 0, 0};
+
+	register int count = 0;
+
+	va_start(arguments, format);
+	if (!format || (format[0] == '%' && !format[1]))
+		return (-1);
+	if (format[0] == '%' && format[1] == ' ' && !format[2])
+		return (-1);
+	for (p = format; *p; p++)
 	{
-	case '\0':
-		va_end(args);
-		return (n_bytes);
-	case '%':
-		switch (*++format)
+		if (*p == '%')
 		{
-		case '%':
-			n_bytes += write(1, format, 1);
-			break;
-
-		case 'c':
-			*ch = va_arg(args, int);
-			n_bytes += write(1, ch, 1);
-			break;
-
-		case 's':
-			str = va_arg(args, char *);
-			while (*str)
-				n_bytes += write(1, str++, 1);
-			break;
-		
-		case 'd':
-			n = va_arg(args, int);
-			if (n < 0)
+			p++;
+			if (*p == '%')
 			{
-				n = -n;
-				*ch = '-';
-			 	n_bytes += write(1, ch, 1);
+				count += _putchar('%');
+				continue;
 			}
-
-			while (n > 0)
-			{
-				*ch = (n / 10 + '0');
-				n_bytes += write(1, ch, 1);
-				n /= 10;
-			}
-			break;
-
-		default:
-			break;
-		}
-		break;
-	
-	default:
-		n_bytes += write(1, format, 1);
-		break;
+			while (get_flag(*p, &flags))
+				p++;
+			pfunc = get_print(*p);
+			count += (pfunc)
+				? pfunc(arguments, &flags)
+				: _printf("%%%c", *p);
+		} else
+			count += _putchar(*p);
 	}
-
-	format++;
-	goto print;
+	_putchar(-1);
+	va_end(arguments);
+	return (count);
 }
-
