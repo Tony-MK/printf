@@ -1,0 +1,23 @@
+./" Manpage for the function _printf
+.TH man 1 "19 April 2022" "1.0" "_PRINTF man page"
+
+.SH NAME
+This is a recreation of the C library printf() function
+
+.SH SYNOPSIS
+The _printf() function requires the non-optional parameter "main.h" for it to work as expected
+
+.SH DESCRIPTION
+The _printf() function produces output according to a format, 
+and writes its output to stdout, the standard output stream.
+The function returns the number of characters printed (excluding the null byte used to end output to strings)
+format is a character string. The format string is composed of zero or more directives. See man 3 printf for more detail. You need to handle the following conversion specifiers:
+- c
+- s
+- %
+
+.SH BUGS
+...
+
+.SH AUTHOR
+written by: Tony Kithinzi and Juliet Mutinda
