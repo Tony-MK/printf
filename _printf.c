@@ -3,7 +3,6 @@
 /**
  * _printf - main func
  * @format: specifies the format
- * printing to stdout using printf
  * Return: printed values
  */
 int _printf(const char *format, ...)
